@@ -1,7 +1,4 @@
-# file: main.py
-
 from pathlib import Path
-import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from crypto.encrypt import SecureFileCryptoStream
@@ -15,7 +12,9 @@ ALLOWED_EXTENSIONS = {".txt", ".pdf"}
 def get_user_dirs() -> list[Path]:
     home = Path.home()
     dirs = [
+        #home / "Documents",
         home / "Desktop/myapp",
+        #home / "Downloads"
     ]
     return [d for d in dirs if d.is_dir()]
 
