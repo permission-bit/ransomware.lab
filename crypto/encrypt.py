@@ -1,5 +1,3 @@
-# file: crypto/secure_file_crypto_stream.py
-
 from __future__ import annotations
 
 from pathlib import Path
