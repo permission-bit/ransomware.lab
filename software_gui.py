@@ -11,8 +11,7 @@ def run_gui():
             from AppKit import NSApp, NSApplicationActivationPolicyAccessory
             NSApp.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
         except Exception as e:
-            a = 1
-            #print("Dock-Icon konnte nicht versteckt werden:", e)
+            return e
 
     window = QWidget()
     window.setWindowFlag(Qt.WindowStaysOnTopHint)
