@@ -19,13 +19,12 @@
 
 ### Clone via Git
 
-![ran](images/ran.png)
-
 ```bash
 git clone https://github.com/VincentNaujoks/malware.lab.git
 cd malware.lab
 ```
-<img width="300" height="auto" alt="Bildschirmfoto 2026-04-24 um 08 11 57" src="https://github.com/user-attachments/assets/5ce41400-2a1c-4aee-b482-af92acdb16fd" />
+
+![ran](images/ran.png)
 
 ### Or download as ZIP
 
