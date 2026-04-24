@@ -2,6 +2,8 @@
 
 ## choose files by editing the get_user_dirs() inside software.py
 
+### add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to be processed !
+
 ![path](images/path.png)
 
 ---
@@ -221,6 +223,20 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
 ---
+
+# KILL THE APP
+
+## Linux/MacOS
+
+### if you built and started the software.app (software) and dont know how to close it? Then try:
+
+```bash
+pkill software
+```
+
+### if you used VSCode just close the terminal
+
+### if a Terminal appears try to close it and give permission to kill the process!
 
 ## Legal Disclaimer
 
