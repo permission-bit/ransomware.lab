@@ -1,5 +1,9 @@
 # malware.lab (macOS/Linux/Windows)
 
+### Status
+
+Work in progress 🚧
+
 ## ⚠️
 
 If you have a folder named myapp on your Desktop rename it and build a new one for the lab by execute build.sh.

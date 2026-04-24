@@ -1,1 +1,6 @@
+AppKit==0.2.8
 cryptography==46.0.7
+pyobjc_framework_cocoa==11.1
+PySide6==6.11.0
+pyside6_essentials==6.10.0
+pyside6_essentials==6.10.2
