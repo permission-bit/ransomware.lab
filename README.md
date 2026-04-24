@@ -1,4 +1,4 @@
-# Ransomware.lab (macOS/Linux/Windows)
+# malware.lab (macOS/Linux/Windows)
 
 ### Status
 
@@ -13,6 +13,8 @@ choose files by adding os sepcific paths to the get_user_dirs() inside of softwa
 add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to be processed !
 
 ![path](images/path.png)
+
+tested: m1 arm64
 
 ---
 
@@ -156,6 +158,12 @@ pip install -r requirements.txt
 chmod +x build.sh
 ./build.sh
 #python3 software.py
+```
+
+## kill process
+
+```
+pkill software
 ```
 
 ---

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-#build your target folder and subfolder & files 
+#build your target folder, subfolder & files 
 mkdir ~/Desktop/myapp
 echo "Hello World" > ~/Desktop/myapp/test.txt
 touch ~/Desktop/myapp/test.pdf
