@@ -139,7 +139,7 @@ python3.11 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
-python3 software.py
+#python3 software.py
 ```
 
 ---
@@ -153,7 +153,7 @@ py -3.11 -m venv venv
 venv\Scripts\Activate.ps1
 pip install --upgrade pip
 pip install -r requirements.txt
-python software.py
+#python software.py
 ```
 
 ---
@@ -213,6 +213,16 @@ They must point to your `venv`.
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
+
+---
+
+## Legal Disclaimer
+
+This project is provided strictly for educational and authorized testing purposes only.  
+Any use of this software on systems, networks, or data without explicit prior permission from the rightful owner is illegal and may result in civil and criminal liability.  
+
+The author assumes no responsibility or liability for any misuse, damage, or legal consequences arising from the use of this project.  
+By using this software, you agree to comply with all applicable local, national, and international laws.
 
 ---
 
