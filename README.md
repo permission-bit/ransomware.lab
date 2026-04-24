@@ -1,6 +1,8 @@
 # malware.lab
 
-A Python-based project with a clean setup using virtual environments, dependency management, and cross-platform support.
+choose files by editing the get_user_dirs() inside software.py
+
+<img width="500" height="auto" alt="Bildschirmfoto 2026-04-23 um 21 45 58" src="https://github.com/user-attachments/assets/358880ee-0a07-40ed-9373-b827a468e547" />
 
 ---
 
@@ -139,6 +141,8 @@ python3.11 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
+chmod +x build.sh
+./build.sh
 #python3 software.py
 ```
 
