@@ -1,4 +1,4 @@
-# malware.lab (macOS/Linux/Windows)
+# Ransomware.lab (macOS/Linux/Windows)
 
 ### Status
 
