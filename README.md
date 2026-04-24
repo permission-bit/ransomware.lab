@@ -1,8 +1,8 @@
 # malware.lab
 
-choose files by editing the get_user_dirs() inside software.py
+## choose files by editing the get_user_dirs() inside software.py
 
-<img width="500" height="auto" alt="Bildschirmfoto 2026-04-23 um 21 45 58" src="https://github.com/user-attachments/assets/358880ee-0a07-40ed-9373-b827a468e547" />
+![path](images/path.png)
 
 ---
 
@@ -18,6 +18,8 @@ choose files by editing the get_user_dirs() inside software.py
 ## Download the Project
 
 ### Clone via Git
+
+![ran](images/ran.png)
 
 ```bash
 git clone https://github.com/VincentNaujoks/malware.lab.git
@@ -224,7 +226,7 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ## Legal Disclaimer
 
 This project is provided strictly for educational and authorized testing purposes only.  
-Any use of this software on systems, networks, or data without explicit prior permission from the rightful owner is illegal and may result in civil and criminal liability.  
+Any use of this software on systems, networks, or data without explicit prior permission from the rightful owner is illegal and may result in civil and criminal liability.
 
 The author assumes no responsibility or liability for any misuse, damage, or legal consequences arising from the use of this project.  
 By using this software, you agree to comply with all applicable local, national, and international laws.
