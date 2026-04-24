@@ -1,6 +1,7 @@
-# malware.lab (macOS)
+# malware.lab (macOS/Linux/Windows)
 
-⚠️
+## ⚠️
+
 If you have a folder named myapp on your Desktop rename it and build a new one for the lab by execute build.sh.
 
 choose files by adding os sepcific paths to the get_user_dirs() inside of software.py
