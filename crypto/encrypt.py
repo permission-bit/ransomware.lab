@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 
-MAGIC = b"VNENC1"
+MAGIC = b"CRYPTO"
 VERSION = 1
 NONCE_SIZE = 12
 CHUNK_SIZE = 1024 * 1024
