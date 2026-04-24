@@ -1,10 +1,11 @@
 # malware.lab (macOS)
 
-## If you have a folder named myapp on your Desktop rename it and build a new one for the lab by execute build.sh.
+⚠️
+If you have a folder named myapp on your Desktop rename it and build a new one for the lab by execute build.sh.
 
-## choose files by editing the get_user_dirs() inside software.py
+choose files by adding os sepcific paths to the get_user_dirs() inside of software.py
 
-### add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to be processed !
+add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to be processed !
 
 ![path](images/path.png)
 
