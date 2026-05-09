@@ -33,7 +33,7 @@ tested: m1 arm64
 
 ```bash
 git clone https://github.com/permission-bit/ransomware.lab.git
-cd malware.lab
+cd ransomware.lab
 ```
 
 ![ran](images/ran.png)
