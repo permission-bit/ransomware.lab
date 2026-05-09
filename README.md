@@ -32,7 +32,7 @@ tested: m1 arm64
 ### Clone via Git
 
 ```bash
-git clone https://github.com/VincentNaujoks/malware.lab.git
+git clone https://github.com/permission-bit/malware.lab.git
 cd malware.lab
 ```
 
