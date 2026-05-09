@@ -163,7 +163,7 @@ chmod +x build.sh
 ## kill process
 
 ```
-pkill software
+pkill -f "software.py"
 ```
 
 ---
