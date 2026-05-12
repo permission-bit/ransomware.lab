@@ -160,6 +160,26 @@ chmod +x build.sh
 #python3 software.py
 ```
 
+### ALL IN ONE
+```bash
+git clone https://github.com/VincentNaujoks/malware.lab.git
+cd malware.lab
+python3.11 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+chmod +x build.sh
+./build.sh
+cd ~/Desktop/myapp
+open .
+sleep 2
+cd ..
+open dist/ransomware.app
+sleep 7
+pkill ransomware
+#python3 software.py
+```
+
 ## kill process
 
 ```
@@ -247,7 +267,7 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ### if you built and started the software.app (software) and dont know how to close it? Then try:
 
 ```bash
-pkill software
+pkill ransomware
 ```
 
 ### if you used VSCode just close the terminal
