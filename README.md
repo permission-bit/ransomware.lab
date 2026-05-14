@@ -157,12 +157,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 chmod +x build.sh
 ./build.sh
-#python3 software.py
 ```
 
 ### ALL IN ONE
 ```bash
-git clone https://github.com/VincentNaujoks/malware.lab.git
+git clone https://github.com/VincentNaujoks/malware.lab.git 
 cd malware.lab
 python3.11 -m venv venv
 source venv/bin/activate
@@ -177,7 +176,6 @@ cd ..
 open dist/ransomware.app
 sleep 7
 pkill ransomware
-#python3 software.py
 ```
 
 ## kill process
@@ -197,7 +195,6 @@ py -3.11 -m venv venv
 venv\Scripts\Activate.ps1
 pip install --upgrade pip
 pip install -r requirements.txt
-#python software.py
 ```
 
 ---
