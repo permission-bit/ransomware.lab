@@ -159,25 +159,6 @@ chmod +x build.sh
 ./build.sh
 ```
 
-### ALL IN ONE
-```bash
-git clone https://github.com/VincentNaujoks/malware.lab.git 
-cd malware.lab
-python3.11 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-chmod +x build.sh
-./build.sh
-cd ~/Desktop/myapp
-open .
-sleep 2
-cd ..
-open dist/ransomware.app
-sleep 7
-pkill ransomware
-```
-
 ## kill process
 
 ```
