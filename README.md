@@ -15,8 +15,8 @@ add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to 
 # What is does
 
 1. Recursively send files from selected paths to a server (server/send.sh)
-2. Recursively copy and encrypt files from selected OS-specific paths
-3. Delete the original files after transfer or copying
+2. Recursively copy and encrypt files from selected OS-specific paths (software.py)
+3. Delete the original files after transfer or copying (software.py)
 
 ![path](images/path.png)
 
