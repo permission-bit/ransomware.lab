@@ -1,5 +1,3 @@
-# file: listener.sh
-
 #!/bin/bash
 
 FILE_NAME=$(nc -l 9001)
