@@ -128,14 +128,6 @@ python software.py
 
 ---
 
-## Deactivate Virtual Environment
-
-```bash
-deactivate
-```
-
----
-
 ## Generate requirements.txt
 
 ```bash
@@ -159,7 +151,26 @@ chmod +x build.sh
 ./build.sh
 ```
 
-## kill process
+---
+
+# KILL THE APP
+
+## Linux/MacOS
+
+### if you built and started the ransomware.app (ransomware) and dont know how to close it? Then try:
+On MacOS .app extansion will be hide except you watch the info but its the same as just ransomware
+
+```bash
+pkill ransomware
+```
+
+## kill process (python)
+
+### if you used VSCode just close the terminal
+
+### if a Terminal appears try to close it and give permission to kill the process!
+
+## If you run with:   python software.py
 
 ```
 pkill -f "software.py"
@@ -238,19 +249,6 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
 ---
 
-# KILL THE APP
-
-## Linux/MacOS
-
-### if you built and started the software.app (software) and dont know how to close it? Then try:
-
-```bash
-pkill ransomware
-```
-
-### if you used VSCode just close the terminal
-
-### if a Terminal appears try to close it and give permission to kill the process!
 
 ## Legal Disclaimer
 
