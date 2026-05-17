@@ -1,5 +1,3 @@
-# file: tools/security_inventory.py
-
 from pathlib import Path
 import subprocess
 
