@@ -19,6 +19,10 @@ def get_user_dirs() -> list[Path]:
     ]
     return [d for d in dirs if d.is_dir()]
 
+#--------------------------
+# all files 
+
+
 
 def get_files(directory: Path):
     directory = Path(directory)
