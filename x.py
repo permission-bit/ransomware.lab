@@ -1,5 +1,3 @@
-# file: utils/paths.py
-
 from pathlib import Path
 import platform
 
