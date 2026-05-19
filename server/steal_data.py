@@ -23,6 +23,8 @@ def get_transfer_amount(upload_speed_mbit: float) -> int:
     # too slow
     if upload_speed_mbit < MIN_SPEED:
         return 100 * 1024 * 1024  # 100 MB fallback
+        # continue
+        # return 0
 
     seconds = MAX_MINUTES_UPLOAD * 60
 
