@@ -30,7 +30,7 @@ tested: m1 arm64
 - Python 3.11 (recommended)
 - pip
 - venv (included with Python)
-
+  
 ---
 
 ## Download the Project
@@ -101,6 +101,14 @@ py -3.11 -m venv venv
 venv\Scripts\activate.bat
 ```
 
+---
+## Download software to install
+
+### Execute installer.py
+
+```
+python installer.py
+```
 ---
 
 ## Install Dependencies
