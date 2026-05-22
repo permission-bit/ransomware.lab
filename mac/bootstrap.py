@@ -2,6 +2,7 @@ import platform
 import subprocess
 import shutil
 import sys
+from pathlib import Path
 
 def get_arch():
     machine = platform.machine().lower()
@@ -63,4 +64,16 @@ def check_pip():
         print("[ERROR] pip is missing")
         return False
 
-#--------------------------------- 
+#--------------------------------- setup venv
+
+def create_venv(path="venv"):
+    path = Path(path)
+    if path.exists():
+        print("[OK] venv already exists")
+        return
+
+    print("[SETUP] Create venv...")
+    run([sys.executable, "-m", "venv", str(path)])
+
+#-------------------------------- 
+
