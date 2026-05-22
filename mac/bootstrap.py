@@ -29,3 +29,37 @@ def exists(cmd):
     # Checks if a command exists in the system PATH
     # Returns True if the command is found, otherwise False
     return shutil.which(cmd) is not None
+
+
+
+#-------------------- base check
+def check_homebrew():
+    if not exists("brew"):
+        print("[WARN] Homebrew nicht gefunden.")
+        print("Install: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"")
+        return False
+    return True
+
+
+def check_git():
+    if not exists("git"):
+        print("[ERROR] Git fehlt.")
+        return False
+    return True
+
+
+def check_python():
+    print(f"[INFO] Python: {sys.version}")
+    return True
+
+
+def check_pip():
+    try:
+        import pip
+        print("[OK] pip vorhanden")
+        return True
+    except ImportError:
+        print("[ERROR] pip fehlt")
+        return False
+
+#---------------------------------
