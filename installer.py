@@ -6,7 +6,9 @@ TOOLS = [
     "masscan",
     "git",
     "wget",
-    "curl"
+    "curl",
+    "pyinstaller",
+    "pip"
 ]
 
 
