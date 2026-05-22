@@ -1,6 +1,7 @@
 import platform
 import subprocess
 import shutil
+import sys
 
 def get_arch():
     machine = platform.machine().lower()
@@ -35,7 +36,7 @@ def exists(cmd):
 #-------------------- base check
 def check_homebrew():
     if not exists("brew"):
-        print("[WARN] Homebrew nicht gefunden.")
+        print("[WARN] Homebrew not found.")
         print("Install: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"")
         return False
     return True
@@ -43,7 +44,7 @@ def check_homebrew():
 
 def check_git():
     if not exists("git"):
-        print("[ERROR] Git fehlt.")
+        print("[ERROR] Git is missing.")
         return False
     return True
 
@@ -56,10 +57,10 @@ def check_python():
 def check_pip():
     try:
         import pip
-        print("[OK] pip vorhanden")
+        print("[OK] pip aviable")
         return True
     except ImportError:
-        print("[ERROR] pip fehlt")
+        print("[ERROR] pip is missing")
         return False
 
-#---------------------------------
+#--------------------------------- 
