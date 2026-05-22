@@ -109,6 +109,8 @@ venv\Scripts\activate.bat
 ```
 python installer.py
 ```
+
+that script will install tools like pyinstaller to build the app.
 ---
 
 ## Install Dependencies
