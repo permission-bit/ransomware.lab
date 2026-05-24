@@ -4,7 +4,6 @@ api key finder. first go to gitignore or look just for secret folder
 '''
 from pathlib import Path
 import os
-import paramiko
 import stat
 from datetime import datetime
 import time
@@ -13,7 +12,7 @@ import time
 
 HOME = Path.home()
 CURRENT = Path.cwd()
-SCHREIBTISCH = HOME / "Schreibtisch" 
+SCHREIBTISCH = HOME / "Desktop" 
 # Schreibtisch = German name for Desktop on macOS
 
 IMPORTANT = {
@@ -32,7 +31,9 @@ def get_importent_files_by_extansion():
     
 file = Path("path_test.txt")
 
-file_size = file.stat().st_size # size in bytes 
+file_size = file.stat().st_size # size in bytes
+
+print(get_importent_files_by_extansion())
 
 def make_file_size_beauty():
 
@@ -80,7 +81,7 @@ big_data_files = []
 
 def get_biggest():
 
-    for file in HOME.rglob("*"):
+    for file in SCHREIBTISCH.rglob("*"):
         if file.is_file():
             try:
                 size = file.stat().st_size
@@ -112,7 +113,7 @@ last_changed_files = []
 
 def last_changed():
 
-    for file in HOME.rglob("*"):
+    for file in SCHREIBTISCH.rglob("*"):
 
         if file.is_file():
 
@@ -146,7 +147,7 @@ print(10*"-")
 #------------get dev files
 
 def get_importent_developer_files():
-    for file in HOME.rglob("*"):
+    for file in SCHREIBTISCH.rglob("*"):
         if file.name in IMPORTANT:
             return file
         
@@ -160,7 +161,7 @@ folder_sizes = {}  # {folder: size}
 
 def get_folder_size():
 
-    for file in HOME.rglob("*"):
+    for file in SCHREIBTISCH.rglob("*"):
 
         if file.is_file():
 
