@@ -1,7 +1,3 @@
-'''
-wennn file x groß ist und upload speed x dazu passt lade diese dateien. 
-api key finder. first go to gitignore or look just for secret folder
-'''
 from pathlib import Path
 import os
 import stat
@@ -13,7 +9,7 @@ import time
 HOME = Path.home()
 CURRENT = Path.cwd()
 SCHREIBTISCH = HOME / "Desktop" 
-# Schreibtisch = German name for Desktop on macOS
+
 
 IMPORTANT = {
     "pyproject.toml",
@@ -33,7 +29,11 @@ file = Path("path_test.txt")
 
 file_size = file.stat().st_size # size in bytes
 
+
+print("[*] Load importent extansion files...")
 print(get_importent_files_by_extansion())
+
+
 
 def make_file_size_beauty():
 
@@ -103,6 +103,8 @@ def get_biggest():
 
     return result
 
+print("[*] Load get_biggest()...")
+
 print(get_biggest())
 print(10*"-")
 
@@ -139,7 +141,7 @@ def last_changed():
 
     return result
 
-
+print("[*] Load last changed files...")
 print("\n".join(last_changed()))
 print(10*"-")
 
@@ -151,6 +153,8 @@ def get_importent_developer_files():
         if file.name in IMPORTANT:
             return file
         
+
+print("[*] Load developer files...")
 print(get_importent_developer_files())
 print(10*"-")
 
@@ -192,6 +196,6 @@ def get_folder_size():
 
     return result
 
-
+print("[*] Load biggest folder...")
 print("\n".join(get_folder_size()))
 print(10*"-")
