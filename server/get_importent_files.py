@@ -83,34 +83,55 @@ def get_biggest():
             except PermissionError:
                 pass
 
-#get_biggest()
 
-big_data_files.sort(reverse=True) #biggest_first
 
-for size, path in big_data_files[:20]:
-    print(f"{size / 1024 / 1024:.2f} MB -> {path}")
+    big_data_files.sort(reverse=True) #biggest_first
+
+    result = []
+
+    for size, path in big_data_files[:20]:
+
+        result.append(
+            f"{size / 1024 / 1024:.2f} MB -> {path}"
+        ) 
+
+    return result
 
 #---------------------------
 
-last_chnaged_files = []
+last_changed_files = []
+
 
 def last_changed():
-    
+
     for file in HOME.rglob("*"):
-        if file.is_file:
+
+        if file.is_file():
+
             try:
                 mtime = file.stat().st_mtime
-                last_chnaged_files.append((mtime, file))
+                last_changed_files.append((mtime, file))
+
             except PermissionError:
                 pass
 
-last_changed()
+    # newest first
+    last_changed_files.sort(reverse=True)
 
-last_chnaged_files.sort(reverse=True)
+    result = []
 
-for mtime, path in last_chnaged_files[:20]:
-    readable = last_chnaged_files.ctime(mtime)
-    print(readable, "->", path)
+    for mtime, path in last_changed_files[:20]:
+
+        readable = time.ctime(mtime)
+
+        result.append(
+            f"{readable} -> {path}"
+        )
+
+    return result
+
+
+print("\n".join(last_changed()))
 
 
 #------------get dev files
@@ -121,3 +142,44 @@ def get_importent_developer_files():
             return file
         
 print(get_importent_developer_files())
+
+#-----------------biggest folder
+
+folder_sizes = {}  # {folder: size}
+
+
+def get_folder_size():
+
+    for file in HOME.rglob("*"):
+
+        if file.is_file():
+
+            try:
+                size = file.stat().st_size
+                parent = file.parent
+
+                folder_sizes[parent] = (
+                    folder_sizes.get(parent, 0) + size
+                )
+
+            except PermissionError:
+                pass
+
+    sorted_dirs = sorted(
+        folder_sizes.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    result = []
+
+    for folder, size in sorted_dirs[:20]:
+
+        result.append(
+            f"{size / 1024 / 1024:.2f} MB -> {folder}"
+        )
+
+    return result
+
+
+print("\n".join(get_folder_size()))
