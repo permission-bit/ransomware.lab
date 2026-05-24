@@ -64,15 +64,17 @@ print(stat.filemode(mode))
 
 big_data_files = []
 
-for file in HOME.rglob("*"):
-    if file.is_file():
-        try:
-            size = file.stat().st_size
-            big_data_files.append((size, file))
-        except PermissionError:
-            pass
+def get_biggest():
 
-big_data_files.sort(reverse=True) #biggest_first
+    for file in HOME.rglob("*"):
+        if file.is_file():
+            try:
+                size = file.stat().st_size
+                big_data_files.append((size, file))
+            except PermissionError:
+                pass
+
+    big_data_files.sort(reverse=True) #biggest_first
 
 for size, path in big_data_files[:20]:
     print(f"{size / 1024 / 1024:.2f} MB -> {path}")
