@@ -1,21 +1,27 @@
+'''
+wennn file x groß ist und upload speed x dazu passt lade diese dateien. 
+'''
 from pathlib import Path
 import os
 import paramiko
+import stat
+
 
 HOME = Path.home()
 CURRENT = Path.cwd()
-SCHREIBTISCH = HOME / "Schreibtisch"
+SCHREIBTISCH = HOME / "Schreibtisch" 
+# Schreibtisch = German name for Desktop on macOS
 
 def get_importent_files_by_extansion():
 
     for file in SCHREIBTISCH.rglob("*.py"):
         return file
     
-p = Path("path_test.txt")
+file = Path("path_test.txt")
 
-file_size = p.stat().st_size # size in bytes 
+file_size = file.stat().st_size # size in bytes 
 
-def make_file_size_beauty(file_size: int):
+def make_file_size_beauty():
 
     if file_size < 1024:
         return f"{file_size} B"
@@ -44,3 +50,10 @@ print(file_size)
 
 print(make_file_size_beauty())
 
+#-----------------------
+
+
+
+mode = file.stat().st_mode
+print(oct(mode))
+print(stat.filemode(mode))
