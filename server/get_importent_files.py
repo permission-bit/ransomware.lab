@@ -4,8 +4,6 @@ import stat
 from datetime import datetime
 import time
 
-
-
 HOME = Path.home()
 CURRENT = Path.cwd()
 SCHREIBTISCH = HOME / "Desktop" 
@@ -199,3 +197,11 @@ def get_folder_size():
 print("[*] Load biggest folder...")
 print("\n".join(get_folder_size()))
 print(10*"-")
+
+
+IMPORTANT_FILES = get_importent_files_by_extansion()
+PRETTY_FILES = make_file_size_beauty()
+BIGGEST_LOSER = get_biggest()
+LAST_CHANGED = last_changed()
+DEV_FILES = get_importent_developer_files()
+FOLDER_SIZE = get_folder_size()
