@@ -13,6 +13,15 @@ CURRENT = Path.cwd()
 SCHREIBTISCH = HOME / "Schreibtisch" 
 # Schreibtisch = German name for Desktop on macOS
 
+IMPORTANT = {
+    "pyproject.toml",
+    "package.json",
+    ".env",
+    "requirements.txt",
+    "docker-compose.yml",
+    "Cargo.toml",
+}
+
 def get_importent_files_by_extansion():
 
     for file in SCHREIBTISCH.rglob("*.py"):
@@ -102,3 +111,13 @@ last_chnaged_files.sort(reverse=True)
 for mtime, path in last_chnaged_files[:20]:
     readable = last_chnaged_files.ctime(mtime)
     print(readable, "->", path)
+
+
+#------------get dev files
+
+def get_importent_developer_files():
+    for file in HOME.rglob("*"):
+        if file.name in IMPORTANT:
+            return file
+        
+print(get_importent_developer_files())
