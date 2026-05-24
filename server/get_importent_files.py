@@ -1,5 +1,6 @@
 '''
 wennn file x groß ist und upload speed x dazu passt lade diese dateien. 
+api key finder. first go to gitignore or look just for secret folder
 '''
 from pathlib import Path
 import os
@@ -57,3 +58,24 @@ print(make_file_size_beauty())
 mode = file.stat().st_mode
 print(oct(mode))
 print(stat.filemode(mode))
+
+
+#------------------biggest files
+
+big_data_files = []
+
+for file in HOME.rglob("*"):
+    if file.is_file():
+        try:
+            size = file.stat().st_size
+            big_data_files.append((size, file))
+        except PermissionError:
+            pass
+
+big_data_files.sort(reverse=True) #biggest_first
+
+for size, path in big_data_files[:20]:
+    print(f"{size / 1024 / 1024:.2f} MB -> {path}")
+
+#---------------------------
+
