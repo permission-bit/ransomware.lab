@@ -62,6 +62,7 @@ GB → 1024 * 1024 * 1024
 print(file_size)
 
 print(make_file_size_beauty())
+print(10*"-")
 
 #-----------------------
 
@@ -70,6 +71,7 @@ print(make_file_size_beauty())
 mode = file.stat().st_mode
 print(oct(mode))
 print(stat.filemode(mode))
+print(10*"-")
 
 
 #------------------biggest files
@@ -99,6 +101,9 @@ def get_biggest():
         ) 
 
     return result
+
+print(get_biggest())
+print(10*"-")
 
 #---------------------------
 
@@ -135,6 +140,7 @@ def last_changed():
 
 
 print("\n".join(last_changed()))
+print(10*"-")
 
 
 #------------get dev files
@@ -145,6 +151,7 @@ def get_importent_developer_files():
             return file
         
 print(get_importent_developer_files())
+print(10*"-")
 
 #-----------------biggest folder
 
@@ -186,3 +193,4 @@ def get_folder_size():
 
 
 print("\n".join(get_folder_size()))
+print(10*"-")
