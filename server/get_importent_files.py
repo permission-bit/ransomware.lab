@@ -74,10 +74,31 @@ def get_biggest():
             except PermissionError:
                 pass
 
-    big_data_files.sort(reverse=True) #biggest_first
+#get_biggest()
+
+big_data_files.sort(reverse=True) #biggest_first
 
 for size, path in big_data_files[:20]:
     print(f"{size / 1024 / 1024:.2f} MB -> {path}")
 
 #---------------------------
 
+last_chnaged_files = []
+
+def last_changed():
+    
+    for file in HOME.rglob("*"):
+        if file.is_file:
+            try:
+                mtime = file.stat().st_mtime
+                last_chnaged_files.append((mtime, file))
+            except PermissionError:
+                pass
+
+last_changed()
+
+last_chnaged_files.sort(reverse=True)
+
+for mtime, path in last_chnaged_files[:20]:
+    readable = last_chnaged_files.ctime(mtime)
+    print(readable, "->", path)
