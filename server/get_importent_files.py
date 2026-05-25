@@ -28,8 +28,8 @@ file = Path("path_test.txt")
 file_size = file.stat().st_size # size in bytes
 
 
-print("[*] Load importent extansion files...")
-print(get_importent_files_by_extansion())
+# print("[*] Load importent extansion files...")
+# print(get_importent_files_by_extansion())
 
 
 
@@ -58,19 +58,19 @@ unit 	Bytes
 MB → 1024 * 1024
 GB → 1024 * 1024 * 1024
 '''
-print(file_size)
+# print(file_size)
 
-print(make_file_size_beauty())
-print(10*"-")
+# print(make_file_size_beauty())
+# print(10*"-")
 
 #-----------------------
 
 
 
-mode = file.stat().st_mode
-print(oct(mode))
-print(stat.filemode(mode))
-print(10*"-")
+# mode = file.stat().st_mode
+# print(oct(mode))
+# print(stat.filemode(mode))
+# print(10*"-")
 
 
 #------------------biggest files
@@ -101,10 +101,10 @@ def get_biggest():
 
     return result
 
-print("[*] Load get_biggest()...")
+# print("[*] Load get_biggest()...")
 
-print(get_biggest())
-print(10*"-")
+# print(get_biggest())
+# print(10*"-")
 
 #---------------------------
 
@@ -139,9 +139,9 @@ def last_changed():
 
     return result
 
-print("[*] Load last changed files...")
-print("\n".join(last_changed()))
-print(10*"-")
+# print("[*] Load last changed files...")
+# print("\n".join(last_changed()))
+# print(10*"-")
 
 
 #------------get dev files
@@ -152,9 +152,9 @@ def get_importent_developer_files():
             return file
         
 
-print("[*] Load developer files...")
-print(get_importent_developer_files())
-print(10*"-")
+# print("[*] Load developer files...")
+# print(get_importent_developer_files())
+# print(10*"-")
 
 #-----------------biggest folder
 
@@ -194,14 +194,6 @@ def get_folder_size():
 
     return result
 
-print("[*] Load biggest folder...")
-print("\n".join(get_folder_size()))
-print(10*"-")
-
-
-IMPORTANT_FILES = get_importent_files_by_extansion()
-PRETTY_FILES = make_file_size_beauty()
-BIGGEST_LOSER = get_biggest()
-LAST_CHANGED = last_changed()
-DEV_FILES = get_importent_developer_files()
-FOLDER_SIZE = get_folder_size()
+# print("[*] Load biggest folder...")
+# print("\n".join(get_folder_size()))
+# print(10*"-")
