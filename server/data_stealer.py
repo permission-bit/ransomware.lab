@@ -7,10 +7,7 @@ from typing import Iterable, List, Union
 import speedtest
 import time
 
-from get_importent_files import get_importent_files_by_extansion, make_file_size_beauty, get_biggest, last_changed, get_importent_developer_files, get_folder_size
-
-MAX_SECONDS = 120
-MIN_SPEED_MBIT = 5
+from server.get_importent_files import get_importent_files_by_extansion, make_file_size_beauty, get_biggest, last_changed, get_importent_developer_files, get_folder_size
 
 IMPORTANT_FILES = get_importent_files_by_extansion
 PRETTY_FILES = make_file_size_beauty
@@ -19,7 +16,121 @@ LAST_CHANGED = last_changed
 DEV_FILES = get_importent_developer_files
 FOLDER_SIZE = get_folder_size
 
-ALLOWED_EXTENSIONS = {".txt", ".pdf"}
+MAX_SECONDS = 120
+MIN_SPEED_MBIT = 5
+
+ALLOWED_EXTENSIONS = {
+    # Dokumente
+    ".pdf",
+    # ".doc",
+    # ".docx",
+    ".txt",
+    # ".rtf",
+    # ".md",
+    # ".odt",
+    # ".pages",
+
+    # # Tabellen / Daten
+    # ".csv",
+    # ".xls",
+    # ".xlsx",
+    # ".json",
+    # ".xml",
+    # ".yaml",
+    # ".yml",
+    # ".toml",
+    # ".ini",
+
+    # # Präsentationen
+    # ".ppt",
+    # ".pptx",
+    # ".key",
+
+    # # Bilder
+    # ".png",
+    # ".jpg",
+    # ".jpeg",
+    # ".gif",
+    # ".webp",
+    # ".svg",
+    # ".bmp",
+    # ".ico",
+    # ".tiff",
+    # ".heic",
+
+    # # Audio
+    # ".mp3",
+    # ".wav",
+    # ".flac",
+    # ".aac",
+    # ".ogg",
+    # ".m4a",
+
+    # # Video
+    # ".mp4",
+    # ".mov",
+    # ".mkv",
+    # ".avi",
+    # ".webm",
+    # ".flv",
+
+    # # Archive / Backups
+    # ".zip",
+    # ".tar",
+    # ".gz",
+    # ".7z",
+    # ".rar",
+    # ".bz2",
+
+    # # Code / Entwicklung
+    # ".py",
+    # ".js",
+    # ".ts",
+    # ".jsx",
+    # ".tsx",
+    # ".java",
+    # ".c",
+    # ".cpp",
+    # ".h",
+    # ".hpp",
+    # ".rs",
+    # ".go",
+    # ".php",
+    # ".rb",
+    # ".swift",
+    # ".kt",
+    # ".sh",
+    # ".bash",
+    # ".zsh",
+    # ".ps1",
+    # ".sql",
+    # ".html",
+    # ".css",
+    # ".scss",
+
+    # # Config / DevOps
+    # ".env",
+    # ".dockerignore",
+    # ".gitignore",
+    # ".lock",
+
+    # # Datenbanken
+    # ".db",
+    # ".sqlite",
+    # ".sqlite3",
+
+    # # Zertifikate / Keys
+    # ".pem",
+    # ".key",
+    # ".crt",
+    # ".pub",
+
+    # # Logs
+    # ".log",
+
+    # # Sonstiges
+    # ".torrent",
+}
 
 SKIP_EXTANSIONS = {".mp4", ".mp3", ".png", ".jpeg"} # skip too big
 
