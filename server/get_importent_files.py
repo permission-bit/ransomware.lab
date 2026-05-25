@@ -3,19 +3,38 @@ import os
 import stat
 from datetime import datetime
 import time
+from server.get_importent_files import get_importent_files_by_extansion, make_file_size_beauty, get_biggest, last_changed, get_importent_developer_files, get_folder_size
+
+IMPORTANT_FILES = get_importent_files_by_extansion
+PRETTY_FILES = make_file_size_beauty
+BIGGEST_LOSER = get_biggest
+LAST_CHANGED = last_changed
+DEV_FILES = get_importent_developer_files
+FOLDER_SIZE = get_folder_size
 
 HOME = Path.home()
 CURRENT = Path.cwd()
 SCHREIBTISCH = HOME / "Desktop" 
 
 
-IMPORTANT = {
+IMPORTANT_NAMES = {
     "pyproject.toml",
     "package.json",
     ".env",
     "requirements.txt",
     "docker-compose.yml",
     "Cargo.toml",
+}
+
+IMPORTANT_EXTENSIONS = {
+    ".py",
+    ".rs",
+    ".js",
+    ".ts",
+    ".json",
+    ".toml",
+    ".yaml",
+    ".yml",
 }
 
 def get_importent_files_by_extansion():
@@ -148,7 +167,7 @@ def last_changed():
 
 def get_importent_developer_files():
     for file in SCHREIBTISCH.rglob("*"):
-        if file.name in IMPORTANT:
+        if file.name in IMPORTANT_NAMES:
             return file
         
 
@@ -197,3 +216,29 @@ def get_folder_size():
 # print("[*] Load biggest folder...")
 # print("\n".join(get_folder_size()))
 # print(10*"-")
+
+#---------priority
+
+def calculate_priority(file: Path) -> int:
+    score = 0
+
+    if file.name in IMPORTANT_NAMES:
+        score += 1000
+
+    if file.suffix in IMPORTANT_EXTENSIONS:
+        score +=200
+
+    try:
+        size = file.stat().st_size
+
+        # smaller files first
+        if size < 50_000:
+            score += 100
+
+        elif size < 500_000:
+            score +50
+
+    except Exception:
+        pass
+
+    return score
