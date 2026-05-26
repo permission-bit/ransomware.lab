@@ -296,6 +296,31 @@ def build_priority_file_list(files):
 # =========================================================
 # SELECT FILES
 # =========================================================
+#LIST wihout max upload bytes
+# def select_files_for_transfer(
+#     scored_files,
+#     max_bytes
+# ):
+
+#     print("[*] Selecting files...")
+
+#     selected = []
+
+#     current_size = 0
+
+#     for file_data in scored_files:
+
+#         size = file_data["size"]
+
+#         if current_size + size > max_bytes:
+#             continue
+
+#         selected.append(file_data)
+
+#         current_size += size
+
+#     return selected
+
 
 def select_files_for_transfer(
     scored_files,
@@ -308,18 +333,53 @@ def select_files_for_transfer(
 
     current_size = 0
 
+    used_paths = set()
+
+    # höchste priorität zuerst
+    scored_files.sort(
+        key=lambda x: (
+            x["score"],
+            -x["size"]  # kleinere zuerst
+        ),
+        reverse=True
+    )
+
     for file_data in scored_files:
+
+        path = str(file_data["path"])
+
+        if path in used_paths:
+            continue
 
         size = file_data["size"]
 
+        # limit erreicht
         if current_size + size > max_bytes:
             continue
 
         selected.append(file_data)
 
+        used_paths.add(path)
+
         current_size += size
 
+        # exakt stoppen
+        if current_size >= max_bytes:
+            break
+
+    print(
+        f"[+] Final transfer size: "
+        f"{make_file_size_beauty(current_size)}"
+    )
+
     return selected
+
+
+def get_selected_files():
+    limit = measure_upload_limit()
+    files = fast_scan()
+    scored = build_priority_file_list(files)
+    return select_files_for_transfer(scored, limit)
 
 
 # =========================================================
