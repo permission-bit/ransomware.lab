@@ -266,7 +266,10 @@ def calculate_priority(file: Path) -> int:
         score +=200
 
     try:
+        stat = file.stat()
+
         size = file.stat().st_size
+        modified = stat.st_mtime
 
         # smaller files first
         if size < 50_000:
@@ -274,6 +277,17 @@ def calculate_priority(file: Path) -> int:
 
         elif size < 500_000:
             score +50
+
+        age_hours = (time.time() - modified) / 3600
+
+        if age_hours < 24:
+            score += 300
+
+        if age_hours < 72:
+            score += 150
+
+        elif age_hours < 168:
+            score += 50
 
     except Exception:
         pass
