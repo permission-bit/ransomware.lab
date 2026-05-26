@@ -1,22 +1,20 @@
-from pathlib import Path
-import os
-import stat
-from datetime import datetime
-import time
-import speedtest
-from server.get_importent_files import get_importent_files_by_extansion, make_file_size_beauty, get_biggest, last_changed, get_importent_developer_files, get_folder_size
+# file: server/file_priority.py
 
-IMPORTANT_FILES = get_importent_files_by_extansion
-PRETTY_FILES = make_file_size_beauty
-BIGGEST_LOSER = get_biggest
-LAST_CHANGED = last_changed
-DEV_FILES = get_importent_developer_files
-FOLDER_SIZE = get_folder_size
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+import speedtest
+import heapq
+import time
+import os
+
+# =========================================================
+# CONFIG
+# =========================================================
 
 HOME = Path.home()
 CURRENT = Path.cwd()
-SCHREIBTISCH = HOME / "Desktop" 
 
+DESKTOP = HOME / "Desktop"
 
 IMPORTANT_NAMES = {
     "pyproject.toml",
@@ -41,255 +39,400 @@ IMPORTANT_EXTENSIONS = {
 MAX_SECONDS = 120
 MIN_SPEED_MBIT = 5
 
+MAX_WORKERS = min(32, (os.cpu_count() or 4) * 4)
+
+# =========================================================
+# SPEED
+# =========================================================
+
 def measure_upload_mbit() -> float:
+
     s = speedtest.Speedtest()
+
     s.get_best_server()
+
     upload_bps = s.upload()
-    return upload_bps / 1_000_000  # bit/s -> Mbit/s
+
+    return upload_bps / 1_000_000
 
 
 def get_transfer_amount(upload_speed_mbit: float) -> int:
-    if upload_speed_mbit < MIN_SPEED_MBIT:
-        return 100 * 1024 * 1024  # 100 MB fallback
 
-    bytes_per_second = (upload_speed_mbit * 1_000_000) / 8
+    if upload_speed_mbit < MIN_SPEED_MBIT:
+        return 100 * 1024 * 1024
+
+    bytes_per_second = (
+        upload_speed_mbit * 1_000_000
+    ) / 8
+
     return int(bytes_per_second * MAX_SECONDS)
 
 
-def messure_upload():
+def measure_upload_limit() -> int:
 
     try:
+
+        print("[*] Measuring upload speed...")
+
         speed = measure_upload_mbit()
-        #print(f"Upload: {speed:.2f} Mbit/s")
 
-        transfer_amount = get_transfer_amount(speed)
+        print(f"[+] Upload speed: {speed:.2f} Mbit/s")
 
-        # with open("transfer_amount.json", "w") as f:
-        #     json.dump({"transfer_bytes": transfer_amount}, f, indent=2)
+        return get_transfer_amount(speed)
 
-    except Exception as e:
-        #print("Speedtest failed:", e)
-        return transfer_amount
+    except Exception:
 
+        print("[!] Speedtest failed")
 
+        return 100 * 1024 * 1024
 
 
-def get_importent_files_by_extansion():
+# =========================================================
+# FILE SIZE
+# =========================================================
 
-    for file in SCHREIBTISCH.rglob("*.py"):
-        return file
-    
-file = Path("path_test.txt")
+def make_file_size_beauty(size: int) -> str:
 
-file_size = file.stat().st_size # size in bytes
+    if size < 1024:
+        return f"{size} B"
 
+    elif size < 1024 ** 2:
+        return f"{size / 1024:.2f} KB"
 
-# print("[*] Load importent extansion files...")
-# print(get_importent_files_by_extansion())
-
-
-
-def make_file_size_beauty():
-
-    if file_size < 1024:
-        return f"{file_size} B"
-
-    elif file_size < 1024 ** 2:
-        return f"{file_size / 1024:.2f} KB"
-
-    elif file_size < 1024 ** 3:
-        return f"{file_size / (1024 ** 2):.2f} MB"
+    elif size < 1024 ** 3:
+        return f"{size / (1024 ** 2):.2f} MB"
 
     else:
-        return f"{file_size / (1024 ** 3):.2f} GB"
-
-'''
-unit 	Bytes
-
-1 KB	1 024 Bytes
-1 MB	1 048 576 Bytes
-1 GB	1 073 741 824 Bytes
-1 TB	1 099 511 627 776 Bytes
-
-MB → 1024 * 1024
-GB → 1024 * 1024 * 1024
-'''
-# print(file_size)
-
-# print(make_file_size_beauty())
-# print(10*"-")
-
-#-----------------------
+        return f"{size / (1024 ** 3):.2f} GB"
 
 
+# =========================================================
+# FAST SCAN
+# =========================================================
 
-# mode = file.stat().st_mode
-# print(oct(mode))
-# print(stat.filemode(mode))
-# print(10*"-")
+def scan_file(file: Path):
 
+    try:
 
-#------------------biggest files
+        stat_data = file.stat()
 
-big_data_files = []
+        return {
+            "path": file,
+            "name": file.name,
+            "suffix": file.suffix,
+            "size": stat_data.st_size,
+            "mtime": stat_data.st_mtime,
+            "parent": file.parent,
+        }
 
-def get_biggest():
-
-    for file in SCHREIBTISCH.rglob("*"):
-        if file.is_file():
-            try:
-                size = file.stat().st_size
-                big_data_files.append((size, file))
-            except PermissionError:
-                pass
-
-
-
-    big_data_files.sort(reverse=True) #biggest_first
-
-    result = []
-
-    for size, path in big_data_files[:20]:
-
-        result.append(
-            f"{size / 1024 / 1024:.2f} MB -> {path}"
-        ) 
-
-    return result
-
-# print("[*] Load get_biggest()...")
-
-# print(get_biggest())
-# print(10*"-")
-
-#---------------------------
-
-last_changed_files = []
+    except Exception:
+        return None
 
 
-def last_changed():
+def fast_scan():
 
-    for file in SCHREIBTISCH.rglob("*"):
+    print("[*] Scanning files...")
+
+    start = time.perf_counter()
+
+    raw_files = []
+
+    count = 0
+
+    for file in DESKTOP.rglob("*"):
 
         if file.is_file():
+            raw_files.append(file)
 
-            try:
-                mtime = file.stat().st_mtime
-                last_changed_files.append((mtime, file))
+            count += 1
 
-            except PermissionError:
-                pass
+            if count % 1000 == 0:
+                print(f"[*] Found {count} files", end="\r")
 
-    # newest first
-    last_changed_files.sort(reverse=True)
+    print()
+    print(f"[*] Processing {len(raw_files)} files with threads...")
 
-    result = []
+    results = []
 
-    for mtime, path in last_changed_files[:20]:
+    with ThreadPoolExecutor(
+        max_workers=MAX_WORKERS
+    ) as executor:
 
-        readable = time.ctime(mtime)
+        for result in executor.map(
+            scan_file,
+            raw_files,
+            chunksize=128
+        ):
 
-        result.append(
-            f"{readable} -> {path}"
+            if result:
+                results.append(result)
+
+    print(
+        f"[+] Scan done in "
+        f"{time.perf_counter() - start:.2f}s"
+    )
+
+    return results
+
+
+# =========================================================
+# PRIORITY
+# =========================================================
+
+def calculate_priority(file_data: dict) -> int:
+
+    score = 0
+
+    name = file_data["name"]
+    suffix = file_data["suffix"]
+    size = file_data["size"]
+    modified = file_data["mtime"]
+
+    if name in IMPORTANT_NAMES:
+        score += 1000
+
+    if suffix in IMPORTANT_EXTENSIONS:
+        score += 200
+
+    # smaller files first
+    if size < 50_000:
+        score += 100
+
+    elif size < 500_000:
+        score += 50
+
+    age_hours = (
+        time.time() - modified
+    ) / 3600
+
+    if age_hours < 24:
+        score += 300
+
+    elif age_hours < 72:
+        score += 150
+
+    elif age_hours < 168:
+        score += 50
+
+    return score
+
+
+# =========================================================
+# ANALYSIS
+# =========================================================
+
+def get_biggest(files, limit=20):
+
+    return heapq.nlargest(
+        limit,
+        files,
+        key=lambda x: x["size"]
+    )
+
+
+def get_last_changed(files, limit=20):
+
+    return heapq.nlargest(
+        limit,
+        files,
+        key=lambda x: x["mtime"]
+    )
+
+
+def get_biggest_folders(files, limit=20):
+
+    folder_sizes = {}
+
+    for file in files:
+
+        parent = file["parent"]
+
+        folder_sizes[parent] = (
+            folder_sizes.get(parent, 0)
+            + file["size"]
         )
 
-    return result
-
-# print("[*] Load last changed files...")
-# print("\n".join(last_changed()))
-# print(10*"-")
-
-
-#------------get dev files
-
-def get_importent_developer_files():
-    for file in SCHREIBTISCH.rglob("*"):
-        if file.name in IMPORTANT_NAMES:
-            return file
-        
-
-# print("[*] Load developer files...")
-# print(get_importent_developer_files())
-# print(10*"-")
-
-#-----------------biggest folder
-
-folder_sizes = {}  # {folder: size}
-
-
-def get_folder_size():
-
-    for file in SCHREIBTISCH.rglob("*"):
-
-        if file.is_file():
-
-            try:
-                size = file.stat().st_size
-                parent = file.parent
-
-                folder_sizes[parent] = (
-                    folder_sizes.get(parent, 0) + size
-                )
-
-            except PermissionError:
-                pass
-
-    sorted_dirs = sorted(
+    return heapq.nlargest(
+        limit,
         folder_sizes.items(),
-        key=lambda x: x[1],
+        key=lambda x: x[1]
+    )
+
+
+# =========================================================
+# BUILD PRIORITY LIST
+# =========================================================
+
+def build_priority_file_list(files):
+
+    print("[*] Calculating priorities...")
+
+    scored_files = []
+
+    for index, file_data in enumerate(files):
+
+        score = calculate_priority(file_data)
+
+        file_data["score"] = score
+
+        scored_files.append(file_data)
+
+        if index % 5000 == 0 and index != 0:
+            print(
+                f"[*] Processed {index} files",
+                end="\r"
+            )
+
+    print()
+
+    scored_files.sort(
+        key=lambda x: x["score"],
         reverse=True
     )
 
-    result = []
+    return scored_files
 
-    for folder, size in sorted_dirs[:20]:
 
-        result.append(
-            f"{size / 1024 / 1024:.2f} MB -> {folder}"
+# =========================================================
+# SELECT FILES
+# =========================================================
+
+def select_files_for_transfer(
+    scored_files,
+    max_bytes
+):
+
+    print("[*] Selecting files...")
+
+    selected = []
+
+    current_size = 0
+
+    for file_data in scored_files:
+
+        size = file_data["size"]
+
+        if current_size + size > max_bytes:
+            continue
+
+        selected.append(file_data)
+
+        current_size += size
+
+    return selected
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+def main():
+
+    total_start = time.perf_counter()
+
+    # ---------------------------------------------
+
+    limit = measure_upload_limit()
+
+    print(
+        f"[+] Transfer limit: "
+        f"{make_file_size_beauty(limit)}"
+    )
+
+    print()
+
+    # ---------------------------------------------
+
+    files = fast_scan()
+
+    print(
+        f"[+] Total scanned files: "
+        f"{len(files)}"
+    )
+
+    print()
+
+    # ---------------------------------------------
+
+    biggest = get_biggest(files)
+
+    print("[+] Biggest files:")
+
+    for file in biggest[:5]:
+
+        print(
+            f"{make_file_size_beauty(file['size'])} "
+            f"-> {file['path']}"
         )
 
-    return result
+    print()
 
-# print("[*] Load biggest folder...")
-# print("\n".join(get_folder_size()))
-# print(10*"-")
+    # ---------------------------------------------
 
-#---------priority
+    latest = get_last_changed(files)
 
-def calculate_priority(file: Path) -> int:
-    score = 0
+    print("[+] Last changed:")
 
-    if file.name in IMPORTANT_NAMES:
-        score += 1000
+    for file in latest[:5]:
 
-    if file.suffix in IMPORTANT_EXTENSIONS:
-        score +=200
+        print(
+            f"{file['path']}"
+        )
 
-    try:
-        stat = file.stat()
+    print()
 
-        size = file.stat().st_size
-        modified = stat.st_mtime
+    # ---------------------------------------------
 
-        # smaller files first
-        if size < 50_000:
-            score += 100
+    folders = get_biggest_folders(files)
 
-        elif size < 500_000:
-            score +50
+    print("[+] Biggest folders:")
 
-        age_hours = (time.time() - modified) / 3600
+    for folder, size in folders[:5]:
 
-        if age_hours < 24:
-            score += 300
+        print(
+            f"{make_file_size_beauty(size)} "
+            f"-> {folder}"
+        )
 
-        if age_hours < 72:
-            score += 150
+    print()
 
-        elif age_hours < 168:
-            score += 50
+    # ---------------------------------------------
 
-    except Exception:
-        pass
+    scored_files = build_priority_file_list(files)
 
-    return score
+    selected_files = select_files_for_transfer(
+        scored_files,
+        limit
+    )
+
+    # ---------------------------------------------
+
+    print()
+
+    print(
+        f"[+] Selected files: "
+        f"{len(selected_files)}"
+    )
+
+    print()
+
+    for file in selected_files[:50]:
+
+        print(
+            f"[{file['score']}] "
+            f"{make_file_size_beauty(file['size'])} "
+            f"-> {file['path']}"
+        )
+
+    # ---------------------------------------------
+
+    print()
+
+    print(
+        f"[+] Total runtime: "
+        f"{time.perf_counter() - total_start:.2f}s"
+    )
+
+
+if __name__ == "__main__":
+    main()
