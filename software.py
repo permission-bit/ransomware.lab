@@ -72,13 +72,13 @@ def main():
 
     # send_files(PATHS)
 
-    #------all importent files with score
+    #------all importent files with score from server/get_importent_files.py
 
-    files = get_selected_files()
+    # files = get_selected_files()
 
-    clean_paths = [f["path"] for f in files]
+    # clean_paths = [f["path"] for f in files]
 
-    send_files_using_path(clean_paths)
+    # send_files_using_path(clean_paths)
 
     #-----------------------------------------------
 
