@@ -7,16 +7,20 @@ Work in progress 🚧
 ## ⚠️
 
 If you have a folder named myapp on your Desktop rename it and build a new one for the lab by execute build.sh.
-
 choose files by adding os sepcific paths to the get_user_dirs() inside of software.py
-
 add extansion like .png or .exe to ALLOWED_EXTANSIONS if you want more files to be processed !
 
 # What is does
 
-1. Recursively send files from selected paths to a server (server/send.sh)
-2. Recursively copy and encrypt files from selected OS-specific paths (software.py)
-3. Delete the original files after transfer or copying (software.py)
+1. The data stealer is initiated via the main() function in software.py, using either Data Stealer Logic 1 and/or Data Stealer Logic 2.
+
+With Logic 1, the entire folder structure is sent to the listener (server).
+
+Logic 2 sends a calculated number of the most important detected files, depending on the upload speed (see server/get_important_files.py).
+
+2. After stealing the data, all files in the paths from the get_user_dirs() function (software.py) will be copied and the copies gets recursively encrypted.
+
+3. The original files will be deleted
 
 ![path](images/path.png)
 
@@ -30,7 +34,7 @@ tested: m1 arm64
 - Python 3.11 (recommended)
 - pip
 - venv (included with Python)
-  
+
 ---
 
 ## Download the Project
@@ -102,6 +106,7 @@ venv\Scripts\activate.bat
 ```
 
 ---
+
 ## Download software to install
 
 ### Execute installer.py
@@ -110,8 +115,7 @@ venv\Scripts\activate.bat
 python installer.py
 ```
 
-that script will install tools like pyinstaller to build the app.
----
+## that script will install tools like pyinstaller to build the app.
 
 ## Install Dependencies
 
@@ -174,6 +178,7 @@ chmod +x build.sh
 ## Linux/MacOS
 
 ### if you built and started the ransomware.app (ransomware) and dont know how to close it? Then try:
+
 On MacOS .app extansion will be hide except you watch the info but its the same as just ransomware
 
 ```bash
@@ -186,7 +191,7 @@ pkill ransomware
 
 ### if a Terminal appears try to close it and give permission to kill the process!
 
-## If you run with:   python software.py
+## If you run with: python software.py
 
 ```
 pkill -f "software.py"
@@ -264,7 +269,6 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
 ---
-
 
 ## Legal Disclaimer
 
