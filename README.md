@@ -1,4 +1,4 @@
-# ransomware.lab (macOS/Linux/Windows)
+# ransomware.lab (macOS/Linux)
 
 ### Status
 
@@ -25,6 +25,7 @@ Logic 2 sends a calculated number of the most important detected files, dependin
 ![path](images/path.png)
 
 tested: m1 arm64
+x86_64 kali linux
 
 ---
 
